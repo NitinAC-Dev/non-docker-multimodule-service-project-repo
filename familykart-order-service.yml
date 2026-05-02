@@ -9,24 +9,16 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
   kafka:
+    bootstrap-servers: localhost:9094
     producer:
-      bootstrap-servers: localhost:9094
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    consumer:
-      bootstrap-servers: localhost:9094
-      group-id: order-service-group
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer  # ← changed
       properties:
-        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer  # ← added
-        spring.json.value.default.type: org.familykart.com.shared.model.ResponseMessage  # ← added
-        spring.json.trusted.packages: "*"
-        spring.json.use.type.headers: false
+        spring.json.add.type.headers: false  # ← correct producer property
 
 topicName: order-events
 reduceStockTopicName: reduce-stock-events  
-
+notificationTopicNameForPaymentSuccess: notification-events-success
 message: this is order service profile
